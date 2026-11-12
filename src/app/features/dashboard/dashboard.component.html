@@ -1,0 +1,50 @@
+<header class="page-header">
+  <div>
+    <h1>Dashboard</h1>
+    <p>Current state of production and how the team has been responding.</p>
+  </div>
+</header>
+
+<section class="grid-4" aria-label="Key numbers">
+  <app-stat-card label="Open incidents" [value]="open().length" hint="Not yet resolved" />
+  <app-stat-card label="Active Sev 1" [value]="sev1()" hint="Customer-facing outages" [alert]="sev1() > 0" />
+  <app-stat-card label="Mean time to resolve" [value]="mttr() + ' min'" hint="Across resolved incidents" />
+  <app-stat-card label="Services affected" [value]="open().length ? 'See status page' : 'None'" />
+</section>
+
+<div class="panels">
+  <section class="card">
+    <div class="card-header"><h2>Incidents per week</h2></div>
+    <div class="card-body chart" role="img" aria-label="Bar chart of incidents per week">
+      @for (w of weekly(); track w.label) {
+        <div class="bar-col">
+          <span class="bar-count">{{ w.count }}</span>
+          <div class="bar" [style.height.%]="(w.count / maxCount()) * 100"></div>
+          <span class="bar-label">{{ w.label }}</span>
+        </div>
+      }
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="card-header">
+      <h2>Recent incidents</h2>
+      <a routerLink="/incidents" class="text-sm">View all</a>
+    </div>
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th>Incident</th><th>Severity</th><th>Status</th><th>Opened</th></tr></thead>
+        <tbody>
+          @for (i of recent(); track i.id) {
+            <tr>
+              <td><a [routerLink]="['/incidents', i.id]">{{ i.title }}</a><div class="muted text-sm">{{ i.id }} · {{ i.service }}</div></td>
+              <td><app-status-badge [severity]="i.severity" /></td>
+              <td><app-status-badge [status]="i.status" /></td>
+              <td class="muted">{{ i.createdAt | date: 'MMM d, HH:mm' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>

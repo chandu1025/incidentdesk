@@ -1,0 +1,6 @@
+.login { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; }
+.intro { background: var(--ink); color: #e8eeec; padding: 12vh 8vw; display: flex; flex-direction: column; justify-content: center; gap: var(--space-4); }
+.intro h1 { font-size: 2.5rem; }
+.intro p { color: #b4c2bd; font-size: var(--text-lg); }
+.form { width: min(380px, 90%); margin: auto; }
+@media (max-width: 760px) { .login { grid-template-columns: 1fr; } .intro { padding: 8vh 6vw; } .form { margin: var(--space-5) auto; } }

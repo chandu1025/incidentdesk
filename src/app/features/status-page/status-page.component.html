@@ -1,0 +1,32 @@
+<main class="page">
+  <header class="banner" [class]="'banner ' + overall().tone">
+    <h1>{{ overall().text }}</h1>
+    <p>Live status of every IncidentDesk service.</p>
+  </header>
+
+  <section class="card services" aria-label="Services">
+    @for (s of services(); track s.name) {
+      <div class="svc">
+        <span>{{ s.name }}</span>
+        <span class="level" [class]="'level ' + s.level">{{ s.level }}</span>
+      </div>
+    }
+  </section>
+
+  <section class="stack">
+    <h2>Active incidents</h2>
+    @for (i of open(); track i.id) {
+      <article class="card card-body stack">
+        <div class="row-between">
+          <h3>{{ i.title }}</h3>
+          <app-status-badge [status]="i.status" />
+        </div>
+        <p class="muted text-sm">{{ i.service }} · started {{ i.createdAt | date: 'MMM d, HH:mm' }}</p>
+        <p>{{ i.updates[i.updates.length - 1].message }}</p>
+      </article>
+    } @empty {
+      <p class="muted">No active incidents right now.</p>
+    }
+  </section>
+  <footer><a routerLink="/login" class="text-sm">Team sign in</a></footer>
+</main>

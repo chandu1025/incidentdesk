@@ -1,0 +1,24 @@
+<main class="login">
+  <section class="intro">
+    <h1>IncidentDesk</h1>
+    <p>Track incidents, hand off ownership and keep customers informed from one place.</p>
+  </section>
+  <form class="card card-body stack form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    <h2>Sign in</h2>
+    <div class="field">
+      <label for="name">Your name</label>
+      <input id="name" class="input" formControlName="name" autocomplete="name" />
+      @if (form.controls.name.touched && form.controls.name.invalid) {
+        <span class="field-error">Enter your name (at least 2 characters).</span>
+      }
+    </div>
+    <div class="field">
+      <label for="role">Role</label>
+      <select id="role" class="input" formControlName="role">
+        @for (r of roles; track r) { <option [value]="r">{{ r }}</option> }
+      </select>
+    </div>
+    <button class="btn btn-primary" type="submit">Sign in</button>
+    <a routerLink="/status" class="text-sm">View public status page</a>
+  </form>
+</main>

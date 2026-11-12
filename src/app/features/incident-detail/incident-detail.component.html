@@ -1,0 +1,58 @@
+@if (incident(); as inc) {
+  <a routerLink="/incidents" class="text-sm">Back to incidents</a>
+  <header class="page-header head">
+    <div>
+      <h1>{{ inc.title }}</h1>
+      <p><span class="mono">{{ inc.id }}</span> on {{ inc.service }}, owned by {{ inc.owner }}</p>
+    </div>
+    <div class="row">
+      <app-status-badge [severity]="inc.severity" />
+      <app-status-badge [status]="inc.status" />
+    </div>
+  </header>
+
+  <div class="cols">
+    <section class="card">
+      <div class="card-header"><h2>Timeline</h2></div>
+      <ol class="timeline">
+        @for (u of timeline(); track u.at) {
+          <li>
+            <div class="row-between">
+              <app-status-badge [status]="u.status" />
+              <span class="muted text-sm">{{ u.at | date: 'MMM d, HH:mm' }}</span>
+            </div>
+            <p>{{ u.message }}</p>
+            <span class="muted text-sm">{{ u.author }}</span>
+          </li>
+        }
+      </ol>
+    </section>
+
+    <section *appCan="['admin', 'responder']" class="card">
+      <div class="card-header"><h2>Post an update</h2></div>
+      <form class="card-body stack" [formGroup]="form" (ngSubmit)="post()" novalidate>
+        <div class="field">
+          <label for="status">New status</label>
+          <select id="status" class="input" formControlName="status">
+            @for (s of statuses; track s[0]) { <option [value]="s[0]">{{ s[1] }}</option> }
+          </select>
+        </div>
+        <div class="field">
+          <label for="message">What changed?</label>
+          <textarea id="message" class="input" rows="4" formControlName="message"></textarea>
+          @if (form.controls.message.touched && form.controls.message.invalid) {
+            <span class="field-error">Write a short update for the timeline.</span>
+          }
+        </div>
+        @if (error()) { <div class="alert alert-danger" role="alert">{{ error() }}</div> }
+        <button class="btn btn-primary" type="submit" [disabled]="saving()">{{ saving() ? 'Saving' : 'Post update' }}</button>
+      </form>
+    </section>
+  </div>
+} @else {
+  <div class="card card-body stack">
+    <h1>Incident not found</h1>
+    <p class="muted">No incident has the ID {{ id() }}. It may have been removed.</p>
+    <a class="btn" routerLink="/incidents">Back to incidents</a>
+  </div>
+}

@@ -1,0 +1,6 @@
+.head { margin-top: var(--space-3); }
+.cols { display: grid; grid-template-columns: 3fr 2fr; gap: var(--space-4); align-items: start; }
+.timeline { list-style: none; margin: 0; padding: var(--space-4) var(--space-5); }
+.timeline li { padding: 0 0 var(--space-4) var(--space-4); border-left: 2px solid var(--line); display: flex; flex-direction: column; gap: 4px; }
+.timeline li:last-child { padding-bottom: 0; }
+@media (max-width: 900px) { .cols { grid-template-columns: 1fr; } }

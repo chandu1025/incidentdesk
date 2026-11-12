@@ -1,0 +1,6 @@
+.new { display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: var(--space-4); align-items: end; margin-bottom: var(--space-4); }
+.filters { gap: var(--space-3); justify-content: flex-start; }
+.filters .field:first-child { flex: 1; max-width: 360px; }
+.filters .field:last-child { width: 200px; }
+.empty { text-align: center; color: var(--ink-3); padding: var(--space-6) !important; }
+@media (max-width: 800px) { .new { grid-template-columns: 1fr; } .filters { flex-wrap: wrap; } }

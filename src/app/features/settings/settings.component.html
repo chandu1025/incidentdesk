@@ -1,0 +1,19 @@
+<header class="page-header">
+  <div>
+    <h1>Settings</h1>
+    <p>Feature flags for this workspace. Only admins can see this page.</p>
+  </div>
+</header>
+<section class="card">
+  @for (f of flags(); track f.key) {
+    <div class="flag">
+      <div>
+        <h3>{{ f.label }}</h3>
+        <p class="muted text-sm">{{ f.description }}</p>
+      </div>
+      <button type="button" class="switch" role="switch" [attr.aria-checked]="f.on" [attr.aria-label]="f.label" (click)="toggle(f.key)">
+        <span class="knob"></span>
+      </button>
+    </div>
+  }
+</section>
